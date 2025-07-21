@@ -16,15 +16,44 @@ const JoinUsChefCustomer = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.role === "chef") {
-      setMessage("We will send you an email with further instructions!");
-    } else {
-      setMessage("Welcome to the Suvai family!");
+
+    try {
+      const response = await fetch("http://localhost:5000/api/submit-form", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        if (formData.role === "chef") {
+          setMessage("We will send you an email with further instructions!");
+        } else {
+          setMessage("Welcome to the Suvai family!");
+        }
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 4000);
+
+        // Reset form
+        setFormData({
+          name: "",
+          address: "",
+          contact: "",
+          email: "",
+          experience: "",
+          cuisine: "",
+          role: "chef",
+        });
+      } else {
+        alert("Submission failed: " + (result.error || "Please try again."));
+      }
+    } catch (error) {
+      alert("Error submitting form: " + error.message);
+      console.error("Error submitting form:", error);
     }
-    setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 4000);
   };
 
   return (
@@ -123,8 +152,7 @@ const JoinUsChefCustomer = () => {
   );
 };
 
-// 🌿 Updated Styles
-
+// Styles
 const pageWrapperStyle = {
   minHeight: "100vh",
   width: "100vw",

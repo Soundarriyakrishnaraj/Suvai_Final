@@ -39,3 +39,31 @@ body, html {
   background-color: #2e7d32;
   color: white;
 }
+/* Remove unwanted white space from entire layout */
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  background-color: #f8f9fa; /* optional background */
+}
+
+.home-page {
+  width: 100vw;
+  padding: 0;
+  margin: 0;
+}
+
+/* Step circle style */
+.step-circle {
+  background-color: #ffc107;
+  color: white;
+  font-weight: bold;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-bottom: 10px;
+}
